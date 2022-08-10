@@ -5,7 +5,7 @@
 本文使用 PointPillars 作为基本模型，PointPillars 与其他基于体素的模型不同，仅在 x-y 平面以固定大小将点云进行离散化，以此方法生成柱体代替立方体体素。每个体素内的点用来生成特征向量，然后将获得的柱状特征散射回它们在场景中的相应位置以形成伪图像表示。然后伪图像特征经过图像金字塔处理，最后下采样的特征会被反卷积上采样，基于连接后的特征，使用检测头生成最终的检测结果。
 
 
-<img src="figs/transpillars.png" alt="" style="zoom:60%;" />
+<img src="figs/transpillars.png" alt="" width="700px"/>
 
 在特征提取部分，给定一个点云输入序列 ![](https://latex.codecogs.com/svg.image?%5C%7BI_%7BT-n%7D%5C%7D%5E%7BN-1%7D_%7Bn=0%7D)，一个公用的特征提取器用来提取多尺度特征 ![](https://latex.codecogs.com/svg.image?%5C%7B%5Cmathbf%7BF%7D_%7BT-n%7D%5C%7D%5E%7BN-1%7D_%7Bn=0%7D)。后续的特征聚合模块会聚合过往帧的有用信息来丰富当前帧的特征表示。
 
@@ -15,7 +15,7 @@
 
 ## Fusion Aggregation Module
 
-<img src="figs/trans.png" alt="" style="zoom:40%;" />
+<img src="figs/trans.png" alt="" width="400px" />
 
 FAM包括特征融合和特征聚合模块，特征融合操作可以将前一个 FAM 的聚合特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 和当前帧的特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 当做输入，其中 i 代表尺度级别。之前聚合的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 经过反卷积层上采样来匹配当前尺度并与当前帧特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 连接，然后再经过一个卷积层得到融合结果。
 
