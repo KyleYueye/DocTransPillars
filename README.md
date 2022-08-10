@@ -17,4 +17,4 @@
 
 <img src="figs/trans.png" alt="" style="zoom:60%;" />
 
-FAM包括特征
+FAM包括特征融合和特征聚合模块1111111
