@@ -33,6 +33,9 @@ FAM包括特征融合和特征聚合模块，特征融合操作可以将前一�
 其中，![](https://latex.codecogs.com/svg.image?C) 代表类别数，![](https://latex.codecogs.com/svg.image?S) 代表分类预测，![](https://latex.codecogs.com/svg.image?%5Csigma(%5Ccdot)) 代表 sigmoid 函数。然后将客观性编码与位置编码相加，形成位置客观性编码。
 
 ## Attention Mechanism
+
+<img src="figs/atten.png" alt="" width="400px" />
+
 输入：query、key、value 向量
 
 输出：注意力权重矩阵
