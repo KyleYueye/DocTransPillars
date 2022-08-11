@@ -15,7 +15,7 @@
 
 ## Fusion Aggregation Module
 
-<img src="figs/trans.png" alt="" width="400px" />
+<img src="figs/trans.png" alt="" width="500px" />
 
 FAM包括特征融合和特征聚合模块，特征融合操作可以将前一个 FAM 的聚合特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 和当前帧的特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 当做输入，其中 i 代表尺度级别。之前聚合的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 经过反卷积层上采样来匹配当前尺度并与当前帧特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 连接，然后再经过一个卷积层得到融合结果。
 
@@ -34,7 +34,7 @@ FAM包括特征融合和特征聚合模块，特征融合操作可以将前一�
 
 ## Attention Mechanism
 
-<img src="figs/atten.png" alt="" width="400px" />
+<img src="figs/atten.png" alt="" width="500px" />
 
 输入：query、key、value 向量
 
