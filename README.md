@@ -17,11 +17,11 @@
 
 <img src="figs/trans.png" alt="" width="500px" />
 
-FAM包括特征融合和特征聚合模块，特征融合操作可以将前一个 FAM 的聚合特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 和当前帧的特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 当做输入，其中 i 代表尺度级别。之前聚合的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 经过反卷积层上采样来匹配当前尺度并与当前帧特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 连接，然后再经过一个卷积层得到融合结果。
+FAM包括特征融合和特征聚合模块，特征融合操作可以将前一个 FAM 的聚合特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 和当前帧的特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 当做输入，其中 ![](https://latex.codecogs.com/svg.image?i) 代表尺度级别。之前聚合的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Chat%7BF%7D%7D%5E%7Bi-1%7D_%7BT%7D%20) 经过反卷积层上采样来匹配当前尺度并与当前帧特征 ![](https://latex.codecogs.com/svg.image?%5Cinline%20%5Cmathbf%7BF%7D%5E%7Bi%7D_%7BT%7D%20) 连接，然后再经过一个卷积层得到融合结果。
 
 ![](https://latex.codecogs.com/svg.image?%5Coverline%7B%5Cmathbf%7BF%7D%7D_%7BT%7D%5E%7Bi%7D=%5Coperatorname%7BConv%7D%5Cleft(%5Cleft%5B%5Coperatorname%7Bupsample%7D%5Cleft(%5Chat%7B%5Cmathbf%7BF%7D%7D_%7BT%7D%5E%7Bi-1%7D%5Cright),%20%5Cmathbf%7BF%7D_%7BT%7D%5E%7Bi%7D%5Cright%5D%5Cright))
 
-在特征聚合部分，融合后的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Cbar%7BF%7D%7D%5Ei_T) 与过往帧的特征信息 ![](https://latex.codecogs.com/svg.image?%5Cleft%5C%7B%5Cmathbf%7BF%7D_%7BT-n%7D%5E%7Bi%7D%5Cright%5C%7D_%7Bn=1%7D%5E%7BN-1%7D) 聚合。融合后的特征首先经过多头自注意力模块来收集帧内特征，然后输出特征作为后续 cross-attention 的 query ，过往帧的特征在连接之后作为 key 与 value 。特征聚合操作可以总结为：
+在特征聚合部分，融合后的特征 ![](https://latex.codecogs.com/svg.image?%5Cmathbf%7B%5Cbar%7BF%7D%7D%5Ei_T) 与过往帧的特征信息 ![](https://latex.codecogs.com/svg.image?%5Cleft%5C%7B%5Cmathbf%7BF%7D_%7BT-n%7D%5E%7Bi%7D%5Cright%5C%7D_%7Bn=1%7D%5E%7BN-1%7D) 聚合。融合后的特征首先经过多头自注意力模块来收集帧内特征，然后输出特征作为后续 cross-attention 的 query，过往帧的特征在连接之后作为 key 与 value 。特征聚合操作可以总结为：
 
 ![](https://latex.codecogs.com/svg.image?%5Chat%7B%5Cmathbf%7BF%7D%7D_%7BT%7D%5E%7Bi%7D=%5Coperatorname%7BAttn%7D%5Cleft(%5Coperatorname%7BAttn%7D%5Cleft(%5Coverline%7B%5Cmathbf%7BF%7D%7D_%7BT%7D%5E%7Bi%7D,%20%5Coverline%7B%5Cmathbf%7BF%7D%7D_%7BT%7D%5E%7Bi%7D%5Cright),%5Cleft%5B%5Cmathbf%7BF%7D_%7BT-1%7D%5E%7Bi%7D,%20%5Cldots,%20%5Cmathbf%7BF%7D_%7BT-N&plus;1%7D%5E%7Bi%7D%5Cright%5D%5Cright))
 
@@ -40,7 +40,7 @@ FAM包括特征融合和特征聚合模块，特征融合操作可以将前一�
 
 输出：注意力权重矩阵
 
-操作：query 向量线性投影后得到采样位置，用于生成 key sample 和 value sample，将 key sample 与query 向量相乘得到注意矩阵：
+操作：query 向量线性投影后得到采样位置，用于生成 key sample 和 value sample，将 key sample 与 query 向量相乘得到注意矩阵：
 
 ![](https://latex.codecogs.com/svg.image?A_%7Bi,j%7D%5Eh=%5Ctext%7Bsoftmax%7D%5Cleft%20(%20%5Cfrac%7B(W_q%5Cmathbf%7Bq%7D_i)%5ET(W_k%5Cmathbf%7Bk%7D_j)%7D%7B%5Csqrt%7Bd%7D%7D%20%5Cright%20))
 
@@ -48,11 +48,11 @@ FAM包括特征融合和特征聚合模块，特征融合操作可以将前一�
 
 ![](https://latex.codecogs.com/svg.image?%5Coperatorname%7BAttn%7D%5Cleft(%5Cmathbf%7Bq%7D_%7Bi%7D,%20%5Cmathbf%7Bk%7D_%7Bj%7D,%20%5Cmathbf%7Bv%7D_%7Bj%7D%5Cright)=%5Csum_%7Bh=1%7D%5E%7BH%7D%20W_%7Bo%7D%5Cleft(%5Csum_%7Bj=1%7D%5E%7BK%7D%20A_%7Bi,%20j%7D%5E%7Bh%7D%20%5Ccdot%20W_%7Bv%7D%20%5Cmathbf%7Bv%7D_%7Bj%7D%5Cright))
 
-好处：最开始的transformer是在全局进行搜索，开销特别大，复杂度基本呈指数上升。后面引入了注意力机制，可以在特定位置进行匹配和搜索，降低了复杂度，但是对于具有时间信息的多帧检测来说，它无法进行跨帧建模，具体来说，当当前帧特征作为跨帧匹配中的查询时，value sample 来自过去的帧，并且可能由于对象移动而与 query 不对齐，同时注意力权重是通过投影查询特征直接生成的，不包含运动信息。因此对于运动物体，注意力模块很难生成有意义的注意力权重。
+好处：最开始的 transformer 是在全局进行搜索，开销特别大，复杂度基本呈指数上升。后面引入了注意力机制，可以在特定位置进行匹配和搜索，降低了复杂度，但是对于具有时间信息的多帧检测来说，它无法进行跨帧建模，具体来说，当当前帧特征作为跨帧匹配中的查询时，value sample 来自过去的帧，并且可能由于对象移动而与 query 不对齐，同时注意力权重是通过投影查询特征直接生成的，不包含运动信息。因此对于运动物体，注意力模块很难生成有意义的注意力权重。
 
 ## Losses
 
-在FAM的特征聚合阶段，除了最终聚合的特征外，还保留了每个 transformer 层的中间输出以提供额外的监督。这里算出聚合损失。
+在 FAM 的特征聚合阶段，除了最终聚合的特征外，还保留了每个 transformer 层的中间输出以提供额外的监督。这里算出聚合损失。
 
 ![](https://latex.codecogs.com/svg.image?%5Cmathcal%7BL%7D_%7Ba%20g%20g%20r%7D=%5Cfrac%7B1%7D%7BL%7D%20%5Csum_%7Bl=1%7D%5E%7BL%7D%5Cleft(%5Cbeta_%7Bc%20l%20s%7D%20%5Cmathcal%7BL%7D_%7Bc%20l%20s%7D&plus;%5Cbeta_%7Bl%20o%20c%7D%20%5Cmathcal%7BL%7D_%7Bl%20o%20c%7D&plus;%5Cbeta_%7Bd%20i%20r%7D%20%5Cmathcal%7BL%7D_%7Bd%20i%20r%7D%5Cright))
 
